@@ -11,6 +11,11 @@ import org.springframework.stereotype.Service;
 public class PushService {
 
     public void push(PushRequestDto pushRequestDto) {
+        System.out.println(pushRequestDto.hashCode());
+    }
 
+
+    public void push(String pushRequestDto) {
+        System.out.println(pushRequestDto.hashCode());
     }
 }
