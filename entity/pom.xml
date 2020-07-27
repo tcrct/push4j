@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <artifactId>push4j</artifactId>
+        <groupId>com.push4j</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.push4j.entity</groupId>
+    <artifactId>push4j-entity</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <name>entity</name>
+    <url>http://www.push4j.com</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <hutool.version>5.3.5</hutool.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.push4j.utils</groupId>
+            <artifactId>push4j-utils</artifactId>
+            <version>${utils.version}</version>
+        </dependency>
+    </dependencies>
+
+
+</project>
