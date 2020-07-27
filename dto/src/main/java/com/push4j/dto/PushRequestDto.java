@@ -1,7 +1,7 @@
 package com.push4j.dto;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Map;
 
@@ -18,16 +18,18 @@ public class PushRequestDto implements java.io.Serializable {
     /**
      * 模板ID
      */
+    @NotBlank(message = "模板code字段不能为空")
     private String templateCode;
     /**
      * 变量值
      */
-    private Map<String,String> valueMap = new HashMap<>();
+    @NotNull
+    private Map<String,String> valueMap;
 
     /**
      * 指定接收标识集合
      */
-    private List<String> receiveList = new ArrayList<>();
+    private List<String> receiveList;
 
     /**
      * 指定接收类型

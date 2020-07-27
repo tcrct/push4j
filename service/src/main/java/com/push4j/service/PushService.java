@@ -1,6 +1,7 @@
 package com.push4j.service;
 
 import com.push4j.dto.PushRequestDto;
+import com.push4j.utils.ToolsKit;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,11 +12,8 @@ import org.springframework.stereotype.Service;
 public class PushService {
 
     public void push(PushRequestDto pushRequestDto) {
-        System.out.println(pushRequestDto.hashCode());
+        System.out.println(ToolsKit.toJsonString(pushRequestDto));
     }
 
 
-    public void push(String pushRequestDto) {
-        System.out.println(pushRequestDto.hashCode());
-    }
 }
