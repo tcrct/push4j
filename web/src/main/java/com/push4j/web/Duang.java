@@ -1,9 +1,10 @@
 package com.push4j.web;
 
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = "com.push4j")
 public class Duang {
 
     public static void main(String[] args) {

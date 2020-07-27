@@ -24,8 +24,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.push4j</groupId>
-            <artifactId>entity</artifactId>
+            <groupId>com.push4j.entity</groupId>
+            <artifactId>push4j-entity</artifactId>
             <version>${entity.version}</version>
         </dependency>
     </dependencies>
