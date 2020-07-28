@@ -13,6 +13,7 @@
         <module>utils</module>
         <module>common</module>
         <module>web</module>
+        <module>dao</module>
     </modules>
 
 
@@ -35,6 +36,7 @@
         <service.version>1.0-SNAPSHOT</service.version>
         <entity.version>1.0-SNAPSHOT</entity.version>
         <dto.version>1.0-SNAPSHOT</dto.version>
+        <dao.version>1.0-SNAPSHOT</dao.version>
         <common.version>1.0-SNAPSHOT</common.version>
         <utils.version>1.0-SNAPSHOT</utils.version>
         <unit.version>4.11</unit.version>
