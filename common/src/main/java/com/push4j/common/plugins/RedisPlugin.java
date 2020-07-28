@@ -11,6 +11,9 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Redis缓存插件，在程序启动完成后执行
+ *
+ * @author Laotang
+ * @since 1.0
  */
 @Plugin(sort = 0)
 public class RedisPlugin implements IPlugin {
