@@ -34,19 +34,24 @@
             <version>${dto.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.push4j.dao</groupId>
+            <artifactId>push4j-dao</artifactId>
+            <version>${dao.version}</version>
+        </dependency>
+        <dependency>
             <groupId>com.push4j.utils</groupId>
             <artifactId>push4j-utils</artifactId>
             <version>${utils.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.push4j.common</groupId>
-            <artifactId>push4j-common</artifactId>
-            <version>${common.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.push4j.cache</groupId>
             <artifactId>push4j-cache</artifactId>
             <version>${cache.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.push4j.plugin</groupId>
+            <artifactId>push4j-plugin</artifactId>
+            <version>${plugin.version}</version>
         </dependency>
     </dependencies>
     <build>

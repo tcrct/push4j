@@ -1,4 +1,4 @@
-package com.push4j.common.plugins;
+package com.push4j.plugin;
 
 import org.fastboot.common.annotation.Plugin;
 import org.fastboot.common.plugins.IPlugin;
@@ -41,11 +41,11 @@ public class RedisPlugin implements IPlugin {
                 .database(SettingKit.duang().key("redis.database").defaultValue(0).getInteger())
                 .build();
         RedisFactory factory = new RedisFactory(redisConfig);
-       if (factory.start()) {
-           LogUtils.log(LOGGER, "RedisPlugin[{}]-[{}:{}] start is success!",
-                   redisConfig.getClientName(),
-                   redisConfig.getHost(),
-                   redisConfig.getPort());
-       }
+        if (factory.start()) {
+            LogUtils.log(LOGGER, "RedisPlugin[{}]-[{}:{}] start is success!",
+                    redisConfig.getClientName(),
+                    redisConfig.getHost(),
+                    redisConfig.getPort());
+        }
     }
 }

@@ -21,8 +21,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <fastboot.version>1.0-SNAPSHOT</fastboot.version>
-        <controller.version>1.0-SNAPSHOT</controller.version>
     </properties>
 
     <dependencies>
@@ -36,6 +34,11 @@
             <groupId>com.push4j.controller</groupId>
             <artifactId>push4j-controller</artifactId>
             <version>${controller.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.push4j.handle</groupId>
+            <artifactId>push4j-handle</artifactId>
+            <version>${handle.version}</version>
         </dependency>
     </dependencies>
 

@@ -2,6 +2,7 @@ package com.push4j.cache;
 
 import com.push4j.cache.enums.SignCacheKeyEnum;
 import com.push4j.entity.SignEntity;
+import org.fastboot.common.utils.ToolsKit;
 import org.fastboot.redis.RedisFactory;
 import org.fastboot.redis.core.CacheKeyModel;
 import org.fastboot.redis.crud.ICurdCacheService;
@@ -24,7 +25,11 @@ public class SignCacheService implements ICurdCacheService<SignEntity> {
      */
     @Override
     public Integer save(SignEntity entity) {
-        CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(SignCacheKeyEnum.SIGN_KEY).build();
+
+        CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(SignCacheKeyEnum.SIGN_KEY).customKey(entity.getKey()).build();
+        RedisFactory.getCache().set(cacheKeyModel, entity);
+
+        cacheKeyModel = new CacheKeyModel.Builder(SignCacheKeyEnum.SIGN_KEY).build();
         return RedisFactory.getCache().hset(cacheKeyModel, entity.getId(), entity).intValue();
     }
 
@@ -36,8 +41,17 @@ public class SignCacheService implements ICurdCacheService<SignEntity> {
 
     @Override
     public Integer deleteById(String key) {
+        SignEntity signEntity = findById(key);
+        if (ToolsKit.isNotEmpty(signEntity)) {
+            CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(SignCacheKeyEnum.SIGN_KEY).customKey(signEntity.getKey()).build();
+            RedisFactory.getCache().del(cacheKeyModel);
+        }
         CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(SignCacheKeyEnum.SIGN_KEY).build();
         return RedisFactory.getCache().hdel(cacheKeyModel, key).intValue();
     }
 
+    public SignEntity findByKey(String key) {
+        CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(SignCacheKeyEnum.SIGN_KEY).customKey(key).build();
+        return RedisFactory.getCache().get(cacheKeyModel);
+    }
 }

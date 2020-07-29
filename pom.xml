@@ -11,10 +11,11 @@
         <module>dto</module>
         <module>entity</module>
         <module>utils</module>
-        <module>common</module>
+        <module>plugin</module>
         <module>web</module>
         <module>dao</module>
         <module>cache</module>
+        <module>handle</module>
     </modules>
 
 
@@ -38,9 +39,10 @@
         <entity.version>1.0-SNAPSHOT</entity.version>
         <dto.version>1.0-SNAPSHOT</dto.version>
         <dao.version>1.0-SNAPSHOT</dao.version>
-        <common.version>1.0-SNAPSHOT</common.version>
+        <plugin.version>1.0-SNAPSHOT</plugin.version>
         <cache.version>1.0-SNAPSHOT</cache.version>
         <utils.version>1.0-SNAPSHOT</utils.version>
+        <handle.version>1.0-SNAPSHOT</handle.version>
         <unit.version>4.11</unit.version>
     </properties>
 
@@ -56,7 +58,6 @@
             <artifactId>fastboot</artifactId>
             <version>${fastboot.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>
