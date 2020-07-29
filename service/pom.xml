@@ -43,6 +43,11 @@
             <artifactId>push4j-common</artifactId>
             <version>${common.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.push4j.cache</groupId>
+            <artifactId>push4j-cache</artifactId>
+            <version>${cache.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

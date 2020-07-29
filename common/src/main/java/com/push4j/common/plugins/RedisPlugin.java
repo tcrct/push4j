@@ -20,22 +20,25 @@ public class RedisPlugin implements IPlugin {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RedisPlugin.class);
 
+    /**
+     * 在springboot启动前执行
+     */
     @Override
     public void before() {
-        System.out.println("########################: RedisPlugin before");
     }
 
+    /**
+     * 在springboot启动后执行
+     */
     @Override
     public void after() {
-        System.out.println("########################: RedisPlugin after");
-
         RedisConfig redisConfig = new RedisConfig.Builder()
                 .clientName(SettingKit.duang().key("redis.client.name").defaultValue("push4j").getString())
                 .host(SettingKit.duang().key("redis.host").defaultValue("127.0.0.1").getString())
                 .port(SettingKit.duang().key("redis.port").defaultValue(6379).getInteger())
-//                .password(SettingKit.duang().key("redis.password").defaultValue("1b88ab6d").getInteger())
-//                .timeout(SettingKit.duang().key("redis.timeout").defaultValue(3000).getInteger())
-//                .database(SettingKit.duang().key("redis.database").defaultValue(0).getInteger())
+                .password(SettingKit.duang().key("redis.password").defaultValue("123456").getString())
+                .timeout(SettingKit.duang().key("redis.timeout").defaultValue(3000).getInteger())
+                .database(SettingKit.duang().key("redis.database").defaultValue(0).getInteger())
                 .build();
         RedisFactory factory = new RedisFactory(redisConfig);
        if (factory.start()) {

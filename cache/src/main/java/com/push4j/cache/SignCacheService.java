@@ -1,5 +1,6 @@
-package com.push4j.cache.enums;
+package com.push4j.cache;
 
+import com.push4j.cache.enums.SignCacheKeyEnum;
 import com.push4j.entity.SignEntity;
 import org.fastboot.redis.RedisFactory;
 import org.fastboot.redis.core.CacheKeyModel;

@@ -38,7 +38,7 @@ public class SignEntity extends BaseEntity {
      */
     @Param(name = "是否启用", label = "是否启用", desc = "是否开启，0是1否")
     @Range(min = 0, max = 1)
-    private Integer enable = 0;
+    private Integer enable;
 
     public SignEntity() {
 
