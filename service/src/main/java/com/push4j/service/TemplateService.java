@@ -12,6 +12,8 @@ import com.push4j.dao.TemplateDao;
 import com.push4j.cache.TemplateCacheService;
 import com.push4j.entity.TemplateEntity;
 
+import java.util.List;
+
 /**
 * 
 *
@@ -46,5 +48,18 @@ public class TemplateService extends CurdService<TemplateEntity> {
 			templateCacheService.deleteById(id);
 		}
 		return "success";
+	}
+
+	public TemplateEntity findByCode(String code) {
+		if(ToolsKit.isEmpty(code)){
+			throw new ServiceException(ExceptionEnum.PARAM_NULL.getCode(), "模板code不能为空");
+		}
+		TemplateEntity templateEntity = templateCacheService.findByCode(code);
+		if (ToolsKit.isNotEmpty(templateEntity)) {
+			return templateEntity;
+		}
+		String sql = "select * from `template` where `code`=? and `enable`=? and `status`=?";
+		List<TemplateEntity> templateEntityList = templateDao.execute(sql, code, 0, 0);
+		return ToolsKit.isEmpty(templateEntityList) ? null : templateEntityList.get(0);
 	}
 }
