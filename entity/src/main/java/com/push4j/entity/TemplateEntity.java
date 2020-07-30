@@ -1,6 +1,9 @@
 package com.push4j.entity;
 
 import com.push4j.utils.ToolsKit;
+import org.fastboot.db.model.BaseEntity;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * 模板对象实体
@@ -8,23 +11,27 @@ import com.push4j.utils.ToolsKit;
  * @author Laotang
  * @since 1.0
  */
-public class TemplateEntity {
+public class TemplateEntity extends BaseEntity {
 
     /**
      * 模板类型
      */
+    @NotBlank(message = "模板类型不能为空")
     private String type;
     /**
      * 模板code
      */
+    @NotBlank(message = "模板code不能为空")
     private String code;
     /**
      * 模板名称
      */
+    @NotBlank(message = "模板名称不能为空")
     private String name;
     /**
      * 模板内容
      */
+    @NotBlank(message = "模板内容不能为空")
     private String content;
     /**
      * 模板说明

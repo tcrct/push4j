@@ -31,6 +31,7 @@ public class SignService extends CurdService<SignEntity> {
      * @param entity 待持久化/更新的对象
      * @return
      */
+    @Override
     public Integer save(SignEntity entity) {
         if (ToolsKit.isEmpty(entity.getId())) {
             entity = new SignEntity(entity.getName(), entity.getDesc());
