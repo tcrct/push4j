@@ -1,6 +1,7 @@
 package com.push4j.entity;
 
 import com.push4j.utils.ToolsKit;
+import org.beetl.sql.core.annotatoin.Table;
 import org.fastboot.db.model.BaseEntity;
 
 import javax.validation.constraints.NotBlank;
@@ -11,6 +12,7 @@ import javax.validation.constraints.NotBlank;
  * @author Laotang
  * @since 1.0
  */
+@Table(name = "template")
 public class TemplateEntity extends BaseEntity {
 
     /**

@@ -28,6 +28,13 @@ public class VerifySignHandle implements IHandler {
 
     @Override
     public boolean handler(HttpServletRequest request, HttpServletResponse response) {
+
+        String uri = request.getRequestURI();
+        // 只对推送接口进行验证
+        if (!"/mpay/push".equals(uri)) {
+            return true;
+        }
+
         String requestId = request.getHeader(REQUEST_ID);
         String accessKey = request.getHeader(ACCESS_KEY_FIELD);
         String accessSecret = request.getHeader(ACCESS_SECRET_FIELD);

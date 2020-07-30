@@ -10,7 +10,7 @@ import org.fastboot.redis.core.ICacheKeyEnums;
 */
 public enum TemplateCacheKeyEnum implements ICacheKeyEnums {
 
-	HSET_KEY("mpay:模块名:实体名:", ICacheKeyEnums.ONE_DAY_TTL, "记录缓存到hset的key"),
+	HSET_KEY("mpay:push:template:", ICacheKeyEnums.ONE_DAY_TTL, "记录缓存到hset的key"),
 
 	;
 	private String keyPrefix;
