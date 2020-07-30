@@ -14,6 +14,8 @@ public class PushRequestDto implements java.io.Serializable {
     public static final String VALUE_MAP_FIELD = "valueMap";
     public static final String RECEIVE_LIST_FIELD = "receiveList";
     public static final String RECEIVE_TYPE_FIELD = "receiveType";
+    public static final String TITLE_FIELD = "title";
+    public static final String CONTENT_FIELD = "content";
 
     /**
      * 模板ID
@@ -36,11 +38,15 @@ public class PushRequestDto implements java.io.Serializable {
      */
     private String receiveType;
 
+    /**推送标题*/
+    private String title;
+
     public PushRequestDto() {
     }
 
-    public PushRequestDto(String templateCode, Map<String, String> valueMap, List<String> receiveList, String receiveType) {
+    public PushRequestDto(String templateCode, String title, Map<String, String> valueMap, List<String> receiveList, String receiveType) {
         this.templateCode = templateCode;
+        this.title = title;
         this.valueMap = valueMap;
         this.receiveList = receiveList;
         this.receiveType = receiveType;
@@ -76,5 +82,13 @@ public class PushRequestDto implements java.io.Serializable {
 
     public void setReceiveType(String receiveType) {
         this.receiveType = receiveType;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

@@ -1,13 +1,16 @@
 package com.push4j.web;
 
 import cn.hutool.setting.Setting;
+import com.push4j.entity.StatusEntity;
 import com.push4j.entity.TemplateEntity;
 import org.fastboot.generate.GenerateKit;
 
 public class GenerateCode {
     public static void main(String[] args) {
         // 模板CURD
-        Class<?> entityClass = TemplateEntity.class;
+//        Class<?> entityClass = TemplateEntity.class;
+        // 推送状态CURD
+        Class<?> entityClass = StatusEntity.class;
 
         Setting setting = new Setting("application.properties");
         String basePackage = setting.get("base.package");

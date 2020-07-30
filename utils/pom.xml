@@ -22,5 +22,13 @@
         <hutool.version>5.3.5</hutool.version>
     </properties>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.push4j.dto</groupId>
+            <artifactId>push4j-dto</artifactId>
+            <version>${dto.version}</version>
+        </dependency>
+    </dependencies>
+
 
 </project>

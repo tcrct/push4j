@@ -50,13 +50,18 @@ public class TemplateService extends CurdService<TemplateEntity> {
 		return "success";
 	}
 
+	/**
+	 * 根据模板code查找对象
+	 * @param code 模板code
+	 * @return
+	 */
 	public TemplateEntity findByCode(String code) {
 		if(ToolsKit.isEmpty(code)){
 			throw new ServiceException(ExceptionEnum.PARAM_NULL.getCode(), "模板code不能为空");
 		}
 		TemplateEntity templateEntity = templateCacheService.findByCode(code);
 		if (ToolsKit.isNotEmpty(templateEntity)) {
-			return templateEntity;
+			return (templateEntity.getEnable()==0 && templateEntity.getStatus()==0) ? templateEntity : null;
 		}
 		String sql = "select * from `template` where `code`=? and `enable`=? and `status`=?";
 		List<TemplateEntity> templateEntityList = templateDao.execute(sql, code, 0, 0);
