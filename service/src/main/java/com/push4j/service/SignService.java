@@ -23,6 +23,8 @@ public class SignService extends CurdService<SignEntity> {
 
     @Autowired
     private SignCacheService signCacheService;
+    @Autowired
+    private SignEntityDao signDao;
 
     /**
      * 保存操作
