@@ -1,6 +1,5 @@
 package com.push4j.entity;
 
-import com.push4j.utils.ToolsKit;
 import org.beetl.sql.core.annotatoin.Table;
 import org.fastboot.db.model.BaseEntity;
 
@@ -15,6 +14,10 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "template")
 public class TemplateEntity extends BaseEntity {
 
+    /**
+     * 标题
+     */
+    private String title;
     /**
      * 模板类型
      */
@@ -43,17 +46,31 @@ public class TemplateEntity extends BaseEntity {
      * 是否开启 0是1否
      */
     private Integer enable;
+    /**
+     * 标识于这条模板是那个应用的，即SignEntity里的appKey字段
+     */
+    @NotBlank(message = "appKey不能为空")
+    private String appKey;
 
     public TemplateEntity() {
     }
 
-    public TemplateEntity(String type, String name, String content, String desc, Integer enable) {
+    public TemplateEntity(String title, String type, String name, String content, String desc, Integer enable, String appKey) {
+        this.title = title;
         this.type = type;
         this.name = name;
         this.content = content;
         this.desc = desc;
         this.enable = enable;
-        this.code = ToolsKit.getCrc16(buildCrcString());
+        this.appKey = appKey;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getType() {
@@ -104,7 +121,11 @@ public class TemplateEntity extends BaseEntity {
         this.enable = enable;
     }
 
-    private String buildCrcString() {
-        return type + name + System.currentTimeMillis();
+    public String getAppKey() {
+        return appKey;
+    }
+
+    public void setAppKey(String appKey) {
+        this.appKey = appKey;
     }
 }

@@ -18,6 +18,10 @@ public class PushRequestDto implements java.io.Serializable {
     public static final String CONTENT_FIELD = "content";
 
     /**
+     * 标题
+     */
+    private String title;
+    /**
      * 模板ID
      */
     @NotBlank(message = "模板code字段不能为空")
@@ -37,9 +41,6 @@ public class PushRequestDto implements java.io.Serializable {
      * 指定接收类型
      */
     private String receiveType;
-
-    /**推送标题*/
-    private String title;
 
     public PushRequestDto() {
     }

@@ -29,11 +29,6 @@
             <version>${entity.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.push4j.dto</groupId>
-            <artifactId>push4j-dto</artifactId>
-            <version>${dto.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.push4j.dao</groupId>
             <artifactId>push4j-dao</artifactId>
             <version>${dao.version}</version>

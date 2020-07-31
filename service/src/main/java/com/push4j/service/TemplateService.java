@@ -1,7 +1,6 @@
 package com.push4j.service;
 
-import com.push4j.entity.SignEntity;
-import org.fastboot.common.base.BaseController;
+import com.push4j.entity.TemplateEntity;
 import org.fastboot.db.curd.CurdService;
 import org.fastboot.common.utils.ToolsKit;
 import org.fastboot.exception.common.ServiceException;
@@ -10,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.push4j.dao.TemplateDao;
 import com.push4j.cache.TemplateCacheService;
-import com.push4j.entity.TemplateEntity;
 
 import java.util.List;
 
@@ -28,6 +26,22 @@ public class TemplateService extends CurdService<TemplateEntity> {
 	private TemplateCacheService templateCacheService;
 	@Autowired
 	private TemplateDao templateDao;
+
+	/**
+	 * 保存模板
+	 * @param entity 待持久化的对象
+	 * @return 保存成功的条数
+	 */
+	public Integer save(TemplateEntity entity) {
+		if (ToolsKit.isEmpty(entity)) {
+			throw new ServiceException(ExceptionEnum.PARAM_NULL.getCode(), "模板对象不能为空");
+		}
+		if (ToolsKit.isNotEmpty(entity.getId()) && ToolsKit.isEmpty(entity.getCode())) {
+			String crcString = entity.getType() + entity.getTitle() + entity.getName() + System.currentTimeMillis();
+			entity.setCode(com.push4j.utils.ToolsKit.getCrc16(crcString));
+		}
+		return super.save(entity);
+	}
 
 	/**
 	 * 更新模板code

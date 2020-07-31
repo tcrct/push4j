@@ -24,13 +24,5 @@
         <hutool.version>5.3.5</hutool.version>
     </properties>
 
-    <dependencies>
-        <dependency>
-            <groupId>com.push4j.utils</groupId>
-            <artifactId>push4j-utils</artifactId>
-            <version>${utils.version}</version>
-        </dependency>
-    </dependencies>
-
 
 </project>

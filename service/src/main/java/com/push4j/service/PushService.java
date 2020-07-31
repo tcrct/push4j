@@ -1,6 +1,7 @@
 package com.push4j.service;
 
 import com.push4j.dto.PushRequestDto;
+import com.push4j.dto.PushResponseDto;
 import com.push4j.entity.StatusEntity;
 import com.push4j.entity.TemplateEntity;
 import com.push4j.utils.PushKit;
@@ -32,7 +33,7 @@ public class PushService {
     @Autowired
     private TemplateService templateService;
 
-    public void push(PushRequestDto pushRequestDto) {
+    public PushResponseDto push(PushRequestDto pushRequestDto) {
         LogUtils.log(LOGGER, ToolsKit.toJsonString(pushRequestDto));
         Set<ConstraintViolation<PushRequestDto>> violationSet = validator.validate(pushRequestDto);
         if (org.fastboot.common.utils.ToolsKit.isNotEmpty(violationSet)) {
@@ -63,20 +64,30 @@ public class PushService {
         LogUtils.log(LOGGER, "替换后的内容: " + content);
 
         Map<String, StatusEntity> statusDtoMap = new HashMap<>();
-        for (String account : receiveList) {
-            // 是否Android
-            String phoneSystem = "";
+        if (ToolsKit.isNotEmpty(receiveList)) {
+            for (String account : receiveList) {
+                // 是否Android
+                String phoneSystem = "android";
 //            boolean isAndroid = "android".equals(phoneSystem.toLowerCase()) ? true : false;
-            // 调用第三方推送
+                // 调用第三方推送
+                PushKit.duang()
+                        .account(account)
+                        .phoneSystem(phoneSystem)
+                        .title(pushRequestDto.getTitle())
+                        .content(content)
+                        .push();
+                // 缓存推送关系，用于定时查询状态
+                statusDtoMap.put(account, new StatusEntity(account, phoneSystem, pushRequestDto.getTitle(), content, "success"));
+            }
+        } else {
             PushKit.duang()
-                    .account(account)
-                    .phoneSystem(phoneSystem)
+                    .phoneSystem("android")
                     .title(pushRequestDto.getTitle())
                     .content(content)
                     .push();
-            // 缓存推送关系，用于定时查询状态
-            statusDtoMap.put(account, new StatusEntity(account, phoneSystem, pushRequestDto.getTitle(), content, "success"));
         }
+
+        return new PushResponseDto();
 
 //        templateService.pushStatusMapping(statusDtoMap);
     }
