@@ -7,6 +7,7 @@ import com.push4j.dto.PushDataDto;
 import com.push4j.utils.template.AbstractPushTemplate;
 import org.fastboot.common.utils.LogUtils;
 import org.fastboot.common.utils.SettingKit;
+import org.fastboot.common.utils.SpringKit;
 import org.fastboot.exception.common.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,16 +65,22 @@ public class PushKit {
     /**
      * 发送，以http的方式请求推送平台
      */
-    public void push() {
+    public synchronized PushDataDto push() {
         String dataString = PUSH_TEMPLATE.pushData(dataDto);
+        dataDto.setReplaceContent(dataString);
         LogUtils.log(LOGGER, "推出的内容： "+ dataString);
-        HttpResponse httpResponse = HttpRequest.post(PUSH_URL)
-                .body(dataString, MediaType.APPLICATION_JSON.toString())
-                .execute();
-        if (httpResponse.isOk()) {
-            String responseBody = httpResponse.body();
-            System.out.println("responseBody: " + responseBody);
+        try {
+            HttpResponse httpResponse = HttpRequest.post(PUSH_URL)
+                    .body(dataString, MediaType.APPLICATION_JSON.toString())
+                    .execute();
+            if (httpResponse.isOk()) {
+                String responseBody = httpResponse.body();
+                System.out.println("responseBody: " + responseBody);
+            }
+        } catch (Exception e) {
+            LogUtils.log(LOGGER, e.getMessage(), e);
         }
+        return dataDto;
     }
 
     /**

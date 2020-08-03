@@ -4,6 +4,7 @@ import org.beetl.sql.core.annotatoin.Table;
 import org.fastboot.db.model.BaseEntity;
 
 import javax.validation.constraints.NotBlank;
+import java.util.Date;
 
 /**
  * 模板对象实体
@@ -36,8 +37,13 @@ public class TemplateEntity extends BaseEntity {
     /**
      * 模板内容
      */
-    @NotBlank(message = "模板内容不能为空")
+    @NotBlank(message = "中文模板内容不能为空")
     private String content;
+
+    /**
+     * 英文模板内容
+     */
+    private String enContent;
     /**
      * 模板说明
      */
@@ -52,14 +58,20 @@ public class TemplateEntity extends BaseEntity {
     @NotBlank(message = "appKey不能为空")
     private String appKey;
 
+    /**审核人ID*/
+    private Integer approveUserid;
+    /**审核时间*/
+    private Date approveTime;
+
     public TemplateEntity() {
     }
 
-    public TemplateEntity(String title, String type, String name, String content, String desc, Integer enable, String appKey) {
+    public TemplateEntity(String title, String type, String name, String content, String enContent, String desc, Integer enable, String appKey) {
         this.title = title;
         this.type = type;
         this.name = name;
         this.content = content;
+        this.enContent =enContent;
         this.desc = desc;
         this.enable = enable;
         this.appKey = appKey;
@@ -127,5 +139,29 @@ public class TemplateEntity extends BaseEntity {
 
     public void setAppKey(String appKey) {
         this.appKey = appKey;
+    }
+
+    public Integer getApproveUserid() {
+        return approveUserid;
+    }
+
+    public void setApproveUserid(Integer approveUserid) {
+        this.approveUserid = approveUserid;
+    }
+
+    public Date getApproveTime() {
+        return approveTime;
+    }
+
+    public void setApproveTime(Date approveTime) {
+        this.approveTime = approveTime;
+    }
+
+    public String getEnContent() {
+        return enContent;
+    }
+
+    public void setEnContent(String enContent) {
+        this.enContent = enContent;
     }
 }

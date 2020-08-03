@@ -81,4 +81,25 @@ public class TemplateService extends CurdService<TemplateEntity> {
 		List<TemplateEntity> templateEntityList = templateDao.execute(sql, code, 0, 0);
 		return ToolsKit.isEmpty(templateEntityList) ? null : templateEntityList.get(0);
 	}
+
+	/**
+	 * 审核模板
+	 * @param templateId 模板ID
+	 * @return 审核成功返回true
+	 */
+	public boolean approve(String templateId) {
+		if(ToolsKit.isEmpty(templateId)){
+			throw new ServiceException(ExceptionEnum.PARAM_NULL.getCode(), "模板id不能为空");
+		}
+		// 取得当前登录的用户ID并查看是否有审核权限
+		String loginUserId = "";
+
+		String sql = "update `template` set `enable`=? where `id`=?";
+		int count = templateDao.executeUpdate(sql, 0, templateId);
+		if (count > 0) {
+			templateCacheService.deleteById(templateId);
+		}
+		return true;
+
+	}
 }

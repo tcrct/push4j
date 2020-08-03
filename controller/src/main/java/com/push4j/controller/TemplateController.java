@@ -4,6 +4,7 @@ import org.fastboot.common.base.BaseController;
 import org.fastboot.common.dto.R;
 import com.push4j.service.TemplateService;
 import org.fastboot.common.enums.ConstEnums;
+import org.fastboot.common.utils.LogUtils;
 import org.fastboot.common.utils.ToolsKit;
 import org.fastboot.exception.common.ServiceException;
 import org.fastboot.exception.nums.ExceptionEnum;
@@ -50,7 +51,25 @@ public class TemplateController extends BaseController<TemplateEntity> {
 			}
 			return R.success(templateService.updateCode(id, code));
 		} catch (Exception e) {
-			return R.error(123, e);
+			return R.error(123, e.getMessage());
+		}
+	}
+
+	/**
+	 * 审核模板
+	 * @param id 模板ID
+	 * @return
+	 */
+	@RequestMapping(value = "/approve/{id}",  method = RequestMethod.GET)
+	@ResponseBody
+	public R approve(@PathVariable(name = "id") String templateId) {
+		try {
+			if (ToolsKit.isEmpty(templateId)) {
+				throw new ServiceException(ExceptionEnum.PARAM_NULL.getCode(), "模板id不能为空");
+			}
+			return R.success(templateService.approve(templateId));
+		} catch (Exception e) {
+			return R.error(123, e.getMessage());
 		}
 	}
 }

@@ -5,6 +5,8 @@ public class PushDataDto implements java.io.Serializable {
     private String account;
     private String title;
     private String content;
+    /**将变量值替换${}后的内容*/
+    private String replaceContent;
     private String phoneSystem;
 
     public PushDataDto() {
@@ -47,5 +49,13 @@ public class PushDataDto implements java.io.Serializable {
 
     public void setPhoneSystem(String phoneSystem) {
         this.phoneSystem = phoneSystem;
+    }
+
+    public String getReplaceContent() {
+        return replaceContent;
+    }
+
+    public void setReplaceContent(String replaceContent) {
+        this.replaceContent = replaceContent;
     }
 }

@@ -5,9 +5,13 @@ import com.push4j.dto.PushDataDto;
 import com.push4j.dto.ZatPushContentDto;
 import com.push4j.dto.ZatPushDto;
 import com.push4j.utils.ToolsKit;
-import org.aspectj.org.eclipse.jdt.core.IField;
-import org.fastboot.common.utils.SettingKit;
 
+/**
+ * 中澳通推送数据组装模板
+ *
+ * @author Laotang
+ * @since 1.0
+ */
 public class ZatPushTemplate extends AbstractPushTemplate{
 
     public ZatPushTemplate() {

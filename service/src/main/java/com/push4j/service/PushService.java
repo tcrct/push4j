@@ -1,7 +1,10 @@
 package com.push4j.service;
 
+import cn.hutool.core.thread.ThreadUtil;
+import com.push4j.dto.PushDataDto;
 import com.push4j.dto.PushRequestDto;
 import com.push4j.dto.PushResponseDto;
+import com.push4j.entity.LogsEntity;
 import com.push4j.entity.StatusEntity;
 import com.push4j.entity.TemplateEntity;
 import com.push4j.utils.PushKit;
@@ -32,6 +35,8 @@ public class PushService {
     private Validator validator;
     @Autowired
     private TemplateService templateService;
+    @Autowired
+    private LogsService logsService;
 
     public PushResponseDto push(PushRequestDto pushRequestDto) {
         LogUtils.log(LOGGER, ToolsKit.toJsonString(pushRequestDto));
@@ -64,34 +69,57 @@ public class PushService {
         LogUtils.log(LOGGER, "替换后的内容: " + content);
 
         Map<String, StatusEntity> statusDtoMap = new HashMap<>();
+        List<PushDataDto> pushDataDtoList = new ArrayList<>();
         if (ToolsKit.isNotEmpty(receiveList)) {
             for (String account : receiveList) {
                 // 是否Android
                 String phoneSystem = "android";
 //            boolean isAndroid = "android".equals(phoneSystem.toLowerCase()) ? true : false;
                 // 调用第三方推送
-                PushKit.duang()
+                PushDataDto dataDto =PushKit.duang()
                         .account(account)
                         .phoneSystem(phoneSystem)
                         .title(pushRequestDto.getTitle())
                         .content(content)
                         .push();
+                pushDataDtoList.add(dataDto);
                 // 缓存推送关系，用于定时查询状态
                 statusDtoMap.put(account, new StatusEntity(account, phoneSystem, pushRequestDto.getTitle(), content, "success"));
             }
         } else {
-            PushKit.duang()
+            PushDataDto dataDto = PushKit.duang()
                     .phoneSystem("android")
                     .title(pushRequestDto.getTitle())
                     .content(content)
                     .push();
+            pushDataDtoList.add(dataDto);
         }
-
+        // TODO 无论成功与否，都要将该推送记录保存成日志
+        savePushLogs(pushDataDtoList);
         return new PushResponseDto();
-
 //        templateService.pushStatusMapping(statusDtoMap);
     }
 
+    /**
+     * 保存推送记录到日志表
+     * @param pushDataDtoList
+     */
+    private void savePushLogs(final List<PushDataDto> pushDataDtoList) {
+        ThreadUtil.execAsync(new Runnable() {
+            @Override
+            public void run() {
+                for (PushDataDto pushDataDto : pushDataDtoList) {
+                    LogsEntity entity = new LogsEntity();
+                    entity.setTitle(pushDataDto.getTitle());
+                    entity.setContent(pushDataDto.getReplaceContent());
+                    entity.setPhoneSystem(pushDataDto.getPhoneSystem());
+                    entity.setSendTime(new Date());
+                    entity.setSendStatus("已发送");
+                    logsService.save(entity);
+                }
+            }
+        });
+    }
 
     public void status() {
 
