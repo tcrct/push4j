@@ -78,8 +78,16 @@ public class PushService {
             reqDataDto.setRoute(route);
         }
         Map<String,Object> extMap = pushRequestDto.getExtMap();
+        if (ToolsKit.isEmpty(extMap)) {
+            extMap = new HashMap<>();
+            extMap.put("orderNo", "2020042317313800079073");
+        }
         if (ToolsKit.isNotEmpty(extMap)) {
             reqDataDto.setParams(extMap);
+        }
+        String msgType = templateEntity.getType();
+        if (ToolsKit.isNotEmpty(msgType)) {
+            reqDataDto.setMsgType(msgType);
         }
 
         if (ToolsKit.isNotEmpty(receiveList)) {

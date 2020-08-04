@@ -20,6 +20,13 @@ public class ZatPushDto implements java.io.Serializable {
     private Boolean broadCast;
     /**推送到客户端的内容Dto*/
     private ZatPushContentDto content;
+    /**消息類型
+     * 0：系統消息
+     * 1：業務提示
+     * 2：活動消息
+     * 3：實時交易
+     */
+    private String msgType;
 
     public ZatPushDto() {
     }
@@ -31,6 +38,7 @@ public class ZatPushDto implements java.io.Serializable {
         this.appId = appId;
         this.broadCast = broadCast;
         this.content = content;
+        this.msgType = msgType;
     }
 
     public String getPushId() {
@@ -79,5 +87,13 @@ public class ZatPushDto implements java.io.Serializable {
 
     public void setContent(ZatPushContentDto content) {
         this.content = content;
+    }
+
+    public String getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(String msgType) {
+        this.msgType = msgType;
     }
 }

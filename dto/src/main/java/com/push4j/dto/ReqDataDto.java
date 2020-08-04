@@ -1,5 +1,7 @@
 package com.push4j.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.Map;
@@ -12,6 +14,13 @@ import java.util.Map;
  */
 public class ReqDataDto {
 
+    /**消息類型
+     * 0：系統消息
+     * 1：業務提示
+     * 2：活動消息
+     * 3：實時交易
+     */
+    private String msgType;
     /**点击推送提示后，需要打开页面的代号标识
      * proto:原生页面，h5:H5全屏，h5Alter:H5弹窗，redpackage:红包弹窗
      * */
@@ -24,10 +33,19 @@ public class ReqDataDto {
     public ReqDataDto() {
     }
 
-    public ReqDataDto(String type, String route,Map<String, Object> params) {
+    public ReqDataDto(String msgType, String type, String route,Map<String, Object> params) {
+        this.msgType = msgType;
         this.type = type;
         this.route = route;
         this.params = params;
+    }
+
+    public String getMsgType() {
+        return msgType;
+    }
+
+    public void setMsgType(String msgType) {
+        this.msgType = msgType;
     }
 
     public String getType() {

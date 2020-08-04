@@ -36,11 +36,13 @@ public class ZatPushTemplate extends AbstractPushTemplate{
     }
     private ZatPushDto builderZatPushDto(PushDataDto dataDto, ZatPushContentDto contentDto) {
         ZatPushDto zatPushDto = new ZatPushDto();
+        zatPushDto.setMsgType(dataDto.getReqData().getMsgType());
         zatPushDto.setPushId(IdUtil.objectId());
         zatPushDto.setUserId(dataDto.getAccount());
         zatPushDto.setClientType("android".equals(dataDto.getPhoneSystem().toLowerCase()) ? "2" : "1");
         zatPushDto.setAppId(getAppId());
         zatPushDto.setContent(contentDto);
+
         return zatPushDto;
     }
 }

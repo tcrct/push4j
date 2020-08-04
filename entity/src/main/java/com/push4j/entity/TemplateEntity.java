@@ -21,6 +21,10 @@ public class TemplateEntity extends BaseEntity {
     private String title;
     /**
      * 模板类型
+     * 0：系統消息
+     *1：業務提示
+     *2：活動消息
+     *3：實時交易
      */
     @NotBlank(message = "模板类型不能为空")
     private String type;
