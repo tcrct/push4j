@@ -73,13 +73,14 @@ public class PushKit {
         String dataString = PUSH_TEMPLATE.pushData(dataDto);
         LogUtils.log(LOGGER, "推送["+PUSH_URL+"]的内容： "+ dataString);
         try {
-//            HttpResponse httpResponse = HttpRequest.post(PUSH_URL)
-//                    .body(dataString, MediaType.APPLICATION_JSON.toString())
-//                    .execute();
-//            if (httpResponse.isOk()) {
-//                String responseBody = httpResponse.body();
-//                System.out.println("responseBody: " + responseBody);
-//            }
+            HttpResponse httpResponse = HttpRequest.post(PUSH_URL)
+                    .body(dataString, MediaType.APPLICATION_JSON.toString())
+                    .execute();
+            System.out.println(httpResponse.body());
+            if (httpResponse.isOk()) {
+                String responseBody = httpResponse.body();
+                System.out.println("responseBody: " + responseBody);
+            }
         } catch (Exception e) {
             LogUtils.log(LOGGER, e.getMessage(), e);
         }

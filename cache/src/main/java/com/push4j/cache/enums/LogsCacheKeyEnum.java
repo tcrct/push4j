@@ -11,6 +11,7 @@ import org.fastboot.redis.core.ICacheKeyEnums;
 public enum LogsCacheKeyEnum implements ICacheKeyEnums {
 
 	HSET_KEY("mpay:模块名:实体名:", ICacheKeyEnums.ONE_DAY_TTL, "记录缓存到hset的key"),
+	UNREAD_KEY("mpay:message:unread:", ICacheKeyEnums.ONE_YEAR_TTL, "消息未读数集合key"),
 
 	;
 	private String keyPrefix;

@@ -34,6 +34,22 @@ public class LogsController extends BaseController<LogsEntity> {
 		try {
 			String userId = getValue("userId");
 			String messageId= getValue("messageId");
+			return R.success(logsService.read(userId, messageId));
+		} catch (Exception e) {
+			return R.error(123, e);
+		}
+	}
+
+	/**
+	 * 将消息状态设置全部已读
+	 * @return
+	 */
+	@RequestMapping(value = "/readAll",  method = RequestMethod.GET)
+	@ResponseBody
+	public R readAll() {
+		try {
+			String userId = getValue("userId");
+			String messageId= getValue("messageId");
 
 			return R.success(logsService.read(userId, messageId));
 		} catch (Exception e) {

@@ -78,10 +78,6 @@ public class PushService {
             reqDataDto.setRoute(route);
         }
         Map<String,Object> extMap = pushRequestDto.getExtMap();
-        if (ToolsKit.isEmpty(extMap)) {
-            extMap = new HashMap<>();
-            extMap.put("orderNo", "2020042317313800079073");
-        }
         if (ToolsKit.isNotEmpty(extMap)) {
             reqDataDto.setParams(extMap);
         }
@@ -106,7 +102,7 @@ public class PushService {
                 statusDtoMap.put(account, new StatusEntity(account, phoneSystem, pushRequestDto.getTitle(), content, "success"));
             }
         } else {
-            // 手机系统
+            // 全量推送
             PushDataDto dataDto = PushKit.duang()
                     .phoneSystem(getPhoneSystem(pushRequestDto))
                     .alertDto(new AlterDto(pushRequestDto.getTitle(), content))
