@@ -3,10 +3,11 @@ package com.push4j.dto;
 public class PushDataDto implements java.io.Serializable {
 
     private String account;
-    private String title;
-    private String content;
-    /**将变量值替换${}后的内容*/
-    private String replaceContent;
+    /**推送弹窗(提示)消息**/
+    private AlterDto alter = new AlterDto();
+    /**消息内容，这个Dto是用来做点击消息后继的操作所需要的数据DTO，不显示用*/
+    private ReqDataDto reqData = new ReqDataDto();
+    /**手机系统*/
     private String phoneSystem;
 
     public PushDataDto() {
@@ -14,9 +15,25 @@ public class PushDataDto implements java.io.Serializable {
 
     public PushDataDto(String account, String title, String content, String phoneSystem) {
         this.account = account;
-        this.title = title;
-        this.content = content;
+        alter.setTitle(title);
+        alter.setContent(content);
         this.phoneSystem = phoneSystem;
+    }
+
+    public AlterDto getAlter() {
+        return alter;
+    }
+
+    public void setAlter(AlterDto alter) {
+        this.alter = alter;
+    }
+
+    public ReqDataDto getReqData() {
+        return reqData;
+    }
+
+    public void setReqData(ReqDataDto reqData) {
+        this.reqData = reqData;
     }
 
     public String getAccount() {
@@ -28,19 +45,19 @@ public class PushDataDto implements java.io.Serializable {
     }
 
     public String getTitle() {
-        return title;
+        return alter.getTitle();
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        alter.setTitle(title);
     }
 
     public String getContent() {
-        return content;
+        return alter.getContent();
     }
 
     public void setContent(String content) {
-        this.content = content;
+        alter.setContent(content);
     }
 
     public String getPhoneSystem() {
@@ -51,11 +68,5 @@ public class PushDataDto implements java.io.Serializable {
         this.phoneSystem = phoneSystem;
     }
 
-    public String getReplaceContent() {
-        return replaceContent;
-    }
 
-    public void setReplaceContent(String replaceContent) {
-        this.replaceContent = replaceContent;
-    }
 }

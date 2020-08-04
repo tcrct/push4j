@@ -52,6 +52,13 @@ public class TemplateEntity extends BaseEntity {
      * 是否开启 0是1否
      */
     private Integer enable;
+
+    /**路由，告诉手机端，点击推送消息后，打开那一个页面，type为非h5时为页面标识值，h5时为一条完整的URL*/
+    private String route;
+    /**打开方式，分 proto:原生页面，h5:H5全屏，h5Alter:H5弹窗，redpackage:红包弹窗*/
+    private String openType;
+
+
     /**
      * 标识于这条模板是那个应用的，即SignEntity里的appKey字段
      */
@@ -66,7 +73,7 @@ public class TemplateEntity extends BaseEntity {
     public TemplateEntity() {
     }
 
-    public TemplateEntity(String title, String type, String name, String content, String enContent, String desc, Integer enable, String appKey) {
+    public TemplateEntity(String title, String type, String name, String content, String enContent, String desc, Integer enable, String appKey, String route, String openType) {
         this.title = title;
         this.type = type;
         this.name = name;
@@ -75,6 +82,8 @@ public class TemplateEntity extends BaseEntity {
         this.desc = desc;
         this.enable = enable;
         this.appKey = appKey;
+        this.route = route;
+        this.openType = openType;
     }
 
     public String getTitle() {
@@ -163,5 +172,21 @@ public class TemplateEntity extends BaseEntity {
 
     public void setEnContent(String enContent) {
         this.enContent = enContent;
+    }
+
+    public String getRoute() {
+        return route;
+    }
+
+    public void setRoute(String route) {
+        this.route = route;
+    }
+
+    public String getOpenType() {
+        return openType;
+    }
+
+    public void setOpenType(String openType) {
+        this.openType = openType;
     }
 }

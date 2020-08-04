@@ -13,16 +13,44 @@ import java.util.Map;
 public class ReqDataDto {
 
     /**点击推送提示后，需要打开页面的代号标识
-     * 0:原生页面，1:H5全屏，2:H5弹窗，3:红包弹窗
+     * proto:原生页面，h5:H5全屏，h5Alter:H5弹窗，redpackage:红包弹窗
      * */
-    private Integer type;
-    /**手机端页面代号，例如主页或消息中心的页面代号，当type=0时，该值不能为空*/
-    private String pageName;
-    /**请求数据的请求uri地址**/
-    private String uri;
+    private String type;
+    /**路由，告诉手机端，点击推送消息后，打开那一个页面，type为非h5时为页面标识值，h5时为一条完整的URL*/
+    private String route;
     /**请求数据的参数集合*/
-    private Map<String,String> params;
-    /**请求方式，默认为post*/
-    private String method = RequestMethod.POST.name().toLowerCase();
+    private Map<String,Object> params;
 
+    public ReqDataDto() {
+    }
+
+    public ReqDataDto(String type, String route,Map<String, Object> params) {
+        this.type = type;
+        this.route = route;
+        this.params = params;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getRoute() {
+        return route;
+    }
+
+    public void setRoute(String route) {
+        this.route = route;
+    }
+
+    public Map<String, Object> getParams() {
+        return params;
+    }
+
+    public void setParams(Map<String, Object> params) {
+        this.params = params;
+    }
 }

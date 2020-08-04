@@ -8,13 +8,9 @@ package com.push4j.dto;
  */
 public class TipsDto {
 
-    /**图标*/
-    private String icon;
-    /**标题*/
-    private String title;
-    /**提示内容*/
-    private String content;
-    /**消息内容*/
+    /**推送弹窗(提示)消息**/
+    private AlterDto alter;
+    /**消息内容，这个Dto是用来做点击消息后继的操作所需要的数据DTO*/
     private ReqDataDto reqData;
 
 }

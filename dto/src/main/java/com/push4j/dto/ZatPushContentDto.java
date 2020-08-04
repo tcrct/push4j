@@ -16,12 +16,12 @@ public class ZatPushContentDto {
     /**图片URL*/
     private String img_url;
     /**消息內容*/
-    private String cont;
+    private Object cont;
 
     public ZatPushContentDto() {
     }
 
-    public ZatPushContentDto(String unread, String act_url, String img_url, String cont) {
+    public ZatPushContentDto(String unread, String act_url, String img_url, Object cont) {
         this.unread = unread;
         this.act_url = act_url;
         this.img_url = img_url;
@@ -52,11 +52,11 @@ public class ZatPushContentDto {
         this.img_url = img_url;
     }
 
-    public String getCont() {
+    public Object getCont() {
         return cont;
     }
 
-    public void setCont(String cont) {
+    public void setCont(Object cont) {
         this.cont = cont;
     }
 }

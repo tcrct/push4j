@@ -1,10 +1,11 @@
 package com.push4j.utils.template;
 
 import cn.hutool.core.util.IdUtil;
-import com.push4j.dto.PushDataDto;
-import com.push4j.dto.ZatPushContentDto;
-import com.push4j.dto.ZatPushDto;
+import com.push4j.dto.*;
 import com.push4j.utils.ToolsKit;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 中澳通推送数据组装模板
@@ -21,9 +22,15 @@ public class ZatPushTemplate extends AbstractPushTemplate{
     public String pushData(PushDataDto dataDto) {
 
         ZatPushContentDto contentDto = new ZatPushContentDto();
-        contentDto.setActUrl("http://127.0.0.1/acturl/123");
-        contentDto.setImgUrl("http://127.0.0.1/imgurl/123");
-        contentDto.setCont(dataDto.getContent());
+        contentDto.setUnread("0");
+        contentDto.setActUrl("");
+        contentDto.setImgUrl("");
+        Map<String, Object> contMap = new HashMap<>();
+        contMap.put("alert", dataDto.getAlter());
+        contMap.put("reqData", dataDto.getReqData());
+
+//        contentDto.setCont(ToolsKit.toJsonString(contMap));
+        contentDto.setCont(contMap);
 
         return ToolsKit.toJsonString(builderZatPushDto(dataDto, contentDto));
     }

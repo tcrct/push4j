@@ -1,9 +1,7 @@
 package com.push4j.service;
 
 import cn.hutool.core.thread.ThreadUtil;
-import com.push4j.dto.PushDataDto;
-import com.push4j.dto.PushRequestDto;
-import com.push4j.dto.PushResponseDto;
+import com.push4j.dto.*;
 import com.push4j.entity.LogsEntity;
 import com.push4j.entity.StatusEntity;
 import com.push4j.entity.TemplateEntity;
@@ -70,32 +68,46 @@ public class PushService {
 
         Map<String, StatusEntity> statusDtoMap = new HashMap<>();
         List<PushDataDto> pushDataDtoList = new ArrayList<>();
+        ReqDataDto reqDataDto = new ReqDataDto();
+        String openType = templateEntity.getOpenType();
+        String route = templateEntity.getRoute();
+        if (ToolsKit.isNotEmpty(openType)) {
+            reqDataDto.setType(openType);
+        }
+        if (ToolsKit.isNotEmpty(route)) {
+            reqDataDto.setRoute(route);
+        }
+        Map<String,Object> extMap = pushRequestDto.getExtMap();
+        if (ToolsKit.isNotEmpty(extMap)) {
+            reqDataDto.setParams(extMap);
+        }
+
         if (ToolsKit.isNotEmpty(receiveList)) {
             for (String account : receiveList) {
-                // 是否Android
-                String phoneSystem = "android";
-//            boolean isAndroid = "android".equals(phoneSystem.toLowerCase()) ? true : false;
-                // 调用第三方推送
+                // 手机系统
+                String phoneSystem = getPhoneSystem(pushRequestDto);
+                // 调用推送
                 PushDataDto dataDto =PushKit.duang()
                         .account(account)
                         .phoneSystem(phoneSystem)
-                        .title(pushRequestDto.getTitle())
-                        .content(content)
+                        .alertDto(new AlterDto(pushRequestDto.getTitle(), content))
+                        .reqDataDto(reqDataDto)
                         .push();
                 pushDataDtoList.add(dataDto);
                 // 缓存推送关系，用于定时查询状态
                 statusDtoMap.put(account, new StatusEntity(account, phoneSystem, pushRequestDto.getTitle(), content, "success"));
             }
         } else {
+            // 手机系统
             PushDataDto dataDto = PushKit.duang()
-                    .phoneSystem("android")
-                    .title(pushRequestDto.getTitle())
-                    .content(content)
+                    .phoneSystem(getPhoneSystem(pushRequestDto))
+                    .alertDto(new AlterDto(pushRequestDto.getTitle(), content))
+                    .reqDataDto(reqDataDto)
                     .push();
             pushDataDtoList.add(dataDto);
         }
         // TODO 无论成功与否，都要将该推送记录保存成日志
-        savePushLogs(pushDataDtoList);
+//        savePushLogs(pushDataDtoList);
         return new PushResponseDto();
 //        templateService.pushStatusMapping(statusDtoMap);
     }
@@ -111,7 +123,7 @@ public class PushService {
                 for (PushDataDto pushDataDto : pushDataDtoList) {
                     LogsEntity entity = new LogsEntity();
                     entity.setTitle(pushDataDto.getTitle());
-                    entity.setContent(pushDataDto.getReplaceContent());
+                    entity.setContent(pushDataDto.getContent());
                     entity.setPhoneSystem(pushDataDto.getPhoneSystem());
                     entity.setSendTime(new Date());
                     entity.setSendStatus("已发送");
@@ -119,6 +131,10 @@ public class PushService {
                 }
             }
         });
+    }
+
+    private String getPhoneSystem(PushRequestDto pushRequestDto) {
+        return "ios";
     }
 
     public void status() {

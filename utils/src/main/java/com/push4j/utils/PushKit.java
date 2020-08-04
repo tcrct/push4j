@@ -3,7 +3,9 @@ package com.push4j.utils;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import com.push4j.dto.AlterDto;
 import com.push4j.dto.PushDataDto;
+import com.push4j.dto.ReqDataDto;
 import com.push4j.utils.template.AbstractPushTemplate;
 import org.fastboot.common.utils.LogUtils;
 import org.fastboot.common.utils.SettingKit;
@@ -49,14 +51,16 @@ public class PushKit {
         dataDto.setAccount(account);
         return this;
     }
-    public PushKit title(String title) {
-        dataDto.setTitle(title);
+    public PushKit alertDto(AlterDto alterDto) {
+        dataDto.setAlter(alterDto);
         return this;
     }
-    public PushKit content(String content) {
-        dataDto.setContent( content);
+
+    public PushKit reqDataDto(ReqDataDto reqDataDto) {
+        dataDto.setReqData(reqDataDto);
         return this;
     }
+
     public PushKit phoneSystem(String phoneSystem) {
         dataDto.setPhoneSystem(phoneSystem);
         return this;
@@ -67,8 +71,7 @@ public class PushKit {
      */
     public synchronized PushDataDto push() {
         String dataString = PUSH_TEMPLATE.pushData(dataDto);
-        dataDto.setReplaceContent(dataString);
-        LogUtils.log(LOGGER, "推出的内容： "+ dataString);
+        LogUtils.log(LOGGER, "推送["+PUSH_URL+"]的内容： "+ dataString);
         try {
             HttpResponse httpResponse = HttpRequest.post(PUSH_URL)
                     .body(dataString, MediaType.APPLICATION_JSON.toString())
