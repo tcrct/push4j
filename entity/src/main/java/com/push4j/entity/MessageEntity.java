@@ -1,6 +1,7 @@
 package com.push4j.entity;
 
 import org.beetl.sql.core.annotatoin.Table;
+import org.fastboot.db.model.BaseEntity;
 
 import java.util.Date;
 
@@ -11,11 +12,15 @@ import java.util.Date;
  * @author Laotang
  * @since 1.0
  */
-@Table(name = "logs")
-public class LogsEntity implements java.io.Serializable {
+@Table(name = "message")
+public class MessageEntity extends BaseEntity {
 
-    /**记录ID*/
-    private Integer id;
+    public final static String USERID_FIELD = "userId";
+    public final static String TYPE_FIELD = "type";
+    public final static String TITLE_FIELD = "title";
+    public final static String CONTENT_FIELD = "content";
+    public final static String UNREAD_FIELD = "unRead";
+
     /**类型*/
     private String type;
     /**标题*/
@@ -25,29 +30,29 @@ public class LogsEntity implements java.io.Serializable {
     /**发送时间*/
     private Date sendTime;
     /**发送状态，是否成功发送到手机端，0是1否*/
-    private String sendStatus;
+    private Integer sendStatus;
     /**手机系统，android, ios*/
     private String phoneSystem;
+    /**用户ID*/
+    private String userId;
+    /**是否已读，0是1否*/
+    private Integer unRead;
 
-    public LogsEntity() {
+    /**请求参数*/
+    private String reqData;
+
+    public MessageEntity() {
     }
 
-    public LogsEntity(Integer id, String type, String title, String content, Date sendTime, String sendStatus, String phoneSystem) {
-        this.id = id;
+    public MessageEntity(String type, String title, String content, Date sendTime, Integer sendStatus, String phoneSystem, String userId, Integer unRead) {
         this.type = type;
         this.title = title;
         this.content = content;
         this.sendTime = sendTime;
         this.sendStatus = sendStatus;
         this.phoneSystem = phoneSystem;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
+        this.userId = userId;
+        this.unRead = unRead;
     }
 
     public String getType() {
@@ -82,11 +87,11 @@ public class LogsEntity implements java.io.Serializable {
         this.sendTime = sendTime;
     }
 
-    public String getSendStatus() {
+    public Integer getSendStatus() {
         return sendStatus;
     }
 
-    public void setSendStatus(String sendStatus) {
+    public void setSendStatus(Integer sendStatus) {
         this.sendStatus = sendStatus;
     }
 
@@ -96,5 +101,29 @@ public class LogsEntity implements java.io.Serializable {
 
     public void setPhoneSystem(String phoneSystem) {
         this.phoneSystem = phoneSystem;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public Integer getUnRead() {
+        return unRead;
+    }
+
+    public void setUnRead(Integer unRead) {
+        this.unRead = unRead;
+    }
+
+    public String getReqData() {
+        return reqData;
+    }
+
+    public void setReqData(String reqData) {
+        this.reqData = reqData;
     }
 }

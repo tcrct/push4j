@@ -1,9 +1,7 @@
 package com.push4j.web;
 
 import cn.hutool.setting.Setting;
-import com.push4j.entity.LogsEntity;
-import com.push4j.entity.StatusEntity;
-import com.push4j.entity.TemplateEntity;
+import com.push4j.entity.MessageEntity;
 import org.fastboot.generate.GenerateKit;
 
 public class GenerateCode {
@@ -13,7 +11,7 @@ public class GenerateCode {
         // 推送状态CURD
 //        Class<?> entityClass = StatusEntity.class;
         // 日志记录CURD
-        Class<?> entityClass = LogsEntity.class;
+        Class<?> entityClass = MessageEntity.class;
 
         Setting setting = new Setting("application.properties");
         String basePackage = setting.get("base.package");

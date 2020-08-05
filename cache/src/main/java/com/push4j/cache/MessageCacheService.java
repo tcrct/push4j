@@ -5,20 +5,20 @@ import org.fastboot.redis.RedisFactory;
 import org.fastboot.redis.core.CacheKeyModel;
 import org.fastboot.redis.crud.ICurdCacheService;
 import org.springframework.stereotype.Service;
-import com.push4j.cache.enums.LogsCacheKeyEnum;
-import com.push4j.entity.LogsEntity;
+import com.push4j.cache.enums.MessageCacheKeyEnum;
+import com.push4j.entity.MessageEntity;
 
 import java.util.Map;
 import java.util.Set;
 
 /**
-* Logs
+* 消息缓存服务类
 *
 * @author zat
 * @since 1.0
 */
 @Service
-public class LogsCacheService implements ICurdCacheService<LogsEntity> {
+public class MessageCacheService implements ICurdCacheService<MessageEntity> {
 	/**
 	* 保存记录到缓存
 	*
@@ -26,8 +26,8 @@ public class LogsCacheService implements ICurdCacheService<LogsEntity> {
 	* @return 保存成功返回true
 	*/
 	@Override
-	public Integer save(LogsEntity entity) {
-		CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(LogsCacheKeyEnum.HSET_KEY).build();
+	public Integer save(MessageEntity entity) {
+		CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(MessageCacheKeyEnum.HSET_KEY).build();
 		return RedisFactory.getCache().hset(cacheKeyModel, entity.getId(), entity).intValue();
 	}
 
@@ -38,8 +38,8 @@ public class LogsCacheService implements ICurdCacheService<LogsEntity> {
 	* @return 存在返回记录对象
 	*/
 	@Override
-	public LogsEntity findById(String id) {
-		CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(LogsCacheKeyEnum.HSET_KEY).build();
+	public MessageEntity findById(String id) {
+		CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(MessageCacheKeyEnum.HSET_KEY).build();
 		return RedisFactory.getCache().hget(cacheKeyModel, id);
 	}
 
@@ -51,7 +51,7 @@ public class LogsCacheService implements ICurdCacheService<LogsEntity> {
 	*/
 	@Override
 	public Integer deleteById(String id) {
-		CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(LogsCacheKeyEnum.HSET_KEY).build();
+		CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(MessageCacheKeyEnum.HSET_KEY).build();
 		return RedisFactory.getCache().hdel(cacheKeyModel, id).intValue();
 	}
 
@@ -62,7 +62,7 @@ public class LogsCacheService implements ICurdCacheService<LogsEntity> {
 	 * @return
 	 */
 	public Long unread(String userId, String messageId) {
-		CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(LogsCacheKeyEnum.UNREAD_KEY).customKey(userId).build();
+		CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(MessageCacheKeyEnum.UNREAD_KEY).customKey(userId).build();
 		return RedisFactory.getCache().hset(cacheKeyModel, messageId, userId);
 	}
 
@@ -73,7 +73,7 @@ public class LogsCacheService implements ICurdCacheService<LogsEntity> {
 	 * @return
 	 */
 	public Long reader(String userId, String messageId) {
-		CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(LogsCacheKeyEnum.UNREAD_KEY).customKey(userId).build();
+		CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(MessageCacheKeyEnum.UNREAD_KEY).customKey(userId).build();
 		return RedisFactory.getCache().hdel(cacheKeyModel, messageId);
 	}
 
@@ -83,7 +83,7 @@ public class LogsCacheService implements ICurdCacheService<LogsEntity> {
 	 * @return 未读消息的ID集合
 	 */
 	public Set<String> getAllUnReadMessage(String userId) {
-		CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(LogsCacheKeyEnum.UNREAD_KEY).customKey(userId).build();
+		CacheKeyModel cacheKeyModel = new CacheKeyModel.Builder(MessageCacheKeyEnum.UNREAD_KEY).customKey(userId).build();
 		Map<String,Object> unReadMap = RedisFactory.getCache().hgetAll(cacheKeyModel);
 		return ToolsKit.isEmpty(unReadMap) ? null : unReadMap.keySet();
 	}

@@ -2,7 +2,7 @@ package com.push4j.service;
 
 import cn.hutool.core.thread.ThreadUtil;
 import com.push4j.dto.*;
-import com.push4j.entity.LogsEntity;
+import com.push4j.entity.MessageEntity;
 import com.push4j.entity.StatusEntity;
 import com.push4j.entity.TemplateEntity;
 import com.push4j.utils.PushKit;
@@ -34,7 +34,7 @@ public class PushService {
     @Autowired
     private TemplateService templateService;
     @Autowired
-    private LogsService logsService;
+    private MessageService messageService;
 
     public PushResponseDto push(PushRequestDto pushRequestDto) {
         LogUtils.log(LOGGER, ToolsKit.toJsonString(pushRequestDto));
@@ -62,7 +62,7 @@ public class PushService {
         String content = templateEntity.getContent();
         for(Iterator<Map.Entry<String,String>> iterator = valueMap.entrySet().iterator(); iterator.hasNext();) {
             Map.Entry<String,String> entry = iterator.next();
-            content = content.replace("${"+entry.getKey()+"}", entry.getValue());
+            content = content.replace("#{"+entry.getKey()+"}", entry.getValue());
         }
         LogUtils.log(LOGGER, "替换后的内容: " + content);
 
@@ -110,28 +110,36 @@ public class PushService {
                     .push();
             pushDataDtoList.add(dataDto);
         }
-        // TODO 无论成功与否，都要将该推送记录保存成日志
-//        savePushLogs(pushDataDtoList);
+        // TODO 无论成功与否，都要将该推送记录保存成消息记录
+        saveMessage(pushDataDtoList);
         return new PushResponseDto();
 //        templateService.pushStatusMapping(statusDtoMap);
     }
 
     /**
-     * 保存推送记录到日志表
+     * 保存推送记录到消息表
      * @param pushDataDtoList
      */
-    private void savePushLogs(final List<PushDataDto> pushDataDtoList) {
+    private void saveMessage(final List<PushDataDto> pushDataDtoList) {
         ThreadUtil.execAsync(new Runnable() {
             @Override
             public void run() {
                 for (PushDataDto pushDataDto : pushDataDtoList) {
-                    LogsEntity entity = new LogsEntity();
+                    MessageEntity entity = new MessageEntity();
+                    ReqDataDto reqDataDto = pushDataDto.getReqData();
+                    if (ToolsKit.isNotEmpty(reqDataDto)) {
+                        entity.setType(reqDataDto.getMsgType());
+                        entity.setReqData(ToolsKit.toJsonString(reqDataDto));
+                    }
                     entity.setTitle(pushDataDto.getTitle());
                     entity.setContent(pushDataDto.getContent());
                     entity.setPhoneSystem(pushDataDto.getPhoneSystem());
                     entity.setSendTime(new Date());
-                    entity.setSendStatus("已发送");
-                    logsService.save(entity);
+                    entity.setSendStatus(0);
+                    entity.setUserId(pushDataDto.getAccount());
+                    entity.setUnRead(0); //未读
+                    messageService.save(entity);
+                    LogUtils.log(LOGGER, String.format("save [%s]message success", entity.getUserId()));
                 }
             }
         });
@@ -141,7 +149,29 @@ public class PushService {
         return "ios";
     }
 
-    public void status() {
+    /***
+     * 重复推送
+     * 将第一次推送失败的消息，再次推送，由定时任务执行
+     */
+    public void repeatPush() {
+        List<MessageEntity> entityList = messageService.getRepetPush();
+        if (ToolsKit.isEmpty(entityList)) {
+            return;
+        }
+        for (MessageEntity entity : entityList) {
+            String reqDataStr = entity.getReqData();
+            ReqDataDto reqDataDto = null;
+            if (ToolsKit.isNotEmpty(reqDataStr)) {
+                reqDataDto = ToolsKit.jsonParseObject(reqDataStr, ReqDataDto.class);
+            }
+            PushDataDto dataDto =PushKit.duang()
+                    .account(entity.getUserId())
+                    .phoneSystem(entity.getPhoneSystem())
+                    .alertDto(new AlterDto(entity.getTitle(), entity.getContent()))
+                    .reqDataDto(reqDataDto)
+                    .push();
+            // TODO 更改message表的状态
+        }
 
     }
 

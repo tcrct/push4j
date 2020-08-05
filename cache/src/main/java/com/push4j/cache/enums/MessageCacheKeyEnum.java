@@ -3,15 +3,15 @@ package com.push4j.cache.enums;
 import org.fastboot.redis.core.ICacheKeyEnums;
 
 /**
-* Logs缓存KEY枚举
+* Message缓存KEY枚举
 *
 * @author zat
 * @since 1.0
 */
-public enum LogsCacheKeyEnum implements ICacheKeyEnums {
+public enum MessageCacheKeyEnum implements ICacheKeyEnums {
 
-	HSET_KEY("mpay:模块名:实体名:", ICacheKeyEnums.ONE_DAY_TTL, "记录缓存到hset的key"),
-	UNREAD_KEY("mpay:message:unread:", ICacheKeyEnums.ONE_YEAR_TTL, "消息未读数集合key"),
+	HSET_KEY("mpay:push:message:", ICacheKeyEnums.ONE_DAY_TTL, "记录缓存到hset的key"),
+	UNREAD_KEY("mpay:push:message:unread:", ICacheKeyEnums.ONE_YEAR_TTL, "消息未读数集合key"),
 
 	;
 	private String keyPrefix;
@@ -22,7 +22,7 @@ public enum LogsCacheKeyEnum implements ICacheKeyEnums {
 	*@param ttl 缓存有效时间
 	*@param keyDesc 缓存关键字说明
 	*/
-	private LogsCacheKeyEnum(String keyPrefix, int ttl, String keyDesc) {
+	private MessageCacheKeyEnum(String keyPrefix, int ttl, String keyDesc) {
 		this.keyPrefix = keyPrefix;
 		this.ttl = ttl;
 		this.keyDesc = keyDesc;

@@ -1,5 +1,6 @@
 package com.push4j.utils;
 
+import cn.hutool.core.thread.ThreadUtil;
 import cn.hutool.core.util.ReflectUtil;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
@@ -14,6 +15,10 @@ import org.fastboot.exception.common.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
+
+import java.util.concurrent.Callable;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by laotang on 2020/7/30.
@@ -40,7 +45,7 @@ public class PushKit {
     }
     public static final PushKit duang() {
         dataDto= new PushDataDto();
-        return PushKitHolder.INSTANCE;
+        return new PushKit();
     }
 
     private static String PUSH_URL;
@@ -69,18 +74,25 @@ public class PushKit {
     /**
      * 发送，以http的方式请求推送平台
      */
-    public synchronized PushDataDto push() {
+    public PushDataDto push() {
         String dataString = PUSH_TEMPLATE.pushData(dataDto);
         LogUtils.log(LOGGER, "推送["+PUSH_URL+"]的内容： "+ dataString);
         try {
-            HttpResponse httpResponse = HttpRequest.post(PUSH_URL)
-                    .body(dataString, MediaType.APPLICATION_JSON.toString())
-                    .execute();
-            System.out.println(httpResponse.body());
+            /*
+            FutureTask<HttpResponse> futureTask = (FutureTask<HttpResponse>) ThreadUtil.execAsync(new Callable<HttpResponse>() {
+                @Override
+                public HttpResponse call() {
+                    return HttpRequest.post(PUSH_URL)
+                            .body(dataString, MediaType.APPLICATION_JSON.toString())
+                            .execute();
+                }
+            });
+            HttpResponse httpResponse = futureTask.get(3000, TimeUnit.MILLISECONDS);
             if (httpResponse.isOk()) {
                 String responseBody = httpResponse.body();
                 System.out.println("responseBody: " + responseBody);
             }
+            */
         } catch (Exception e) {
             LogUtils.log(LOGGER, e.getMessage(), e);
         }
