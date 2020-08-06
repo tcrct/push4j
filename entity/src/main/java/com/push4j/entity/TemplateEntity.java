@@ -29,21 +29,24 @@ public class TemplateEntity extends BaseEntity {
     @NotBlank(message = "模板类型不能为空")
     private String type;
     /**
+     * 业务类型
+     */
+    private String businessType;
+    /**
      * 模板code
      */
     @NotBlank(message = "模板code不能为空")
     private String code;
-    /**
-     * 模板名称
-     */
-    @NotBlank(message = "模板名称不能为空")
-    private String name;
     /**
      * 模板内容
      */
     @NotBlank(message = "中文模板内容不能为空")
     private String content;
 
+    /**
+     * 英文模板标题
+     */
+    private String enTitle;
     /**
      * 英文模板内容
      */
@@ -77,11 +80,12 @@ public class TemplateEntity extends BaseEntity {
     public TemplateEntity() {
     }
 
-    public TemplateEntity(String title, String type, String name, String content, String enContent, String desc, Integer enable, String appKey, String route, String openType) {
+    public TemplateEntity(String title, String businessType, String type, String content, String enTitle,String enContent, String desc, Integer enable, String appKey, String route, String openType) {
         this.title = title;
+        this.businessType = businessType;
         this.type = type;
-        this.name = name;
         this.content = content;
+        this.enTitle = enTitle;
         this.enContent =enContent;
         this.desc = desc;
         this.enable = enable;
@@ -112,14 +116,6 @@ public class TemplateEntity extends BaseEntity {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getContent() {
@@ -170,6 +166,14 @@ public class TemplateEntity extends BaseEntity {
         this.approveTime = approveTime;
     }
 
+    public String getEnTitle() {
+        return enTitle;
+    }
+
+    public void setEnTitle(String enTitle) {
+        this.enTitle = enTitle;
+    }
+
     public String getEnContent() {
         return enContent;
     }
@@ -192,5 +196,13 @@ public class TemplateEntity extends BaseEntity {
 
     public void setOpenType(String openType) {
         this.openType = openType;
+    }
+
+    public String getBusinessType() {
+        return businessType;
+    }
+
+    public void setBusinessType(String businessType) {
+        this.businessType = businessType;
     }
 }

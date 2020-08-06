@@ -40,7 +40,9 @@ public class PushKit {
             if (ToolsKit.isEmpty(templateClass)) {
                 throw new ServiceException(123, "没有指定发送的数据模板类，请在application.properties里设置[push.data.template]值。");
             }
-            PUSH_TEMPLATE = ReflectUtil.newInstance(templateClass);
+            if (null == PUSH_TEMPLATE) {
+                PUSH_TEMPLATE = ReflectUtil.newInstance(templateClass);
+            }
         }
     }
     public static final PushKit duang() {
@@ -49,7 +51,7 @@ public class PushKit {
     }
 
     private static String PUSH_URL;
-    private AbstractPushTemplate PUSH_TEMPLATE;
+    private static AbstractPushTemplate PUSH_TEMPLATE;
     private static PushDataDto dataDto;
 
     public PushKit account(String account) {

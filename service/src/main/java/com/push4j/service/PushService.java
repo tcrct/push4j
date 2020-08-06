@@ -86,26 +86,28 @@ public class PushService {
             reqDataDto.setMsgType(msgType);
         }
 
+        String title = ToolsKit.isEmpty(pushRequestDto.getTitle()) ? templateEntity.getTitle() : pushRequestDto.getTitle();
+
         if (ToolsKit.isNotEmpty(receiveList)) {
             for (String account : receiveList) {
                 // 手机系统
-                String phoneSystem = getPhoneSystem(pushRequestDto);
+                String phoneSystem = getPhoneSystem(account, pushRequestDto);
                 // 调用推送
                 PushDataDto dataDto =PushKit.duang()
                         .account(account)
                         .phoneSystem(phoneSystem)
-                        .alertDto(new AlterDto(pushRequestDto.getTitle(), content))
+                        .alertDto(new AlterDto(title, content))
                         .reqDataDto(reqDataDto)
                         .push();
                 pushDataDtoList.add(dataDto);
                 // 缓存推送关系，用于定时查询状态
-                statusDtoMap.put(account, new StatusEntity(account, phoneSystem, pushRequestDto.getTitle(), content, "success"));
+                statusDtoMap.put(account, new StatusEntity(account, phoneSystem, title, content, "success"));
             }
         } else {
             // 全量推送
             PushDataDto dataDto = PushKit.duang()
-                    .phoneSystem(getPhoneSystem(pushRequestDto))
-                    .alertDto(new AlterDto(pushRequestDto.getTitle(), content))
+                    .phoneSystem(getPhoneSystem(null,pushRequestDto))
+                    .alertDto(new AlterDto(title, content))
                     .reqDataDto(reqDataDto)
                     .push();
             pushDataDtoList.add(dataDto);
@@ -145,8 +147,18 @@ public class PushService {
         });
     }
 
-    private String getPhoneSystem(PushRequestDto pushRequestDto) {
-        return "ios";
+    private String getPhoneSystem(String account, PushRequestDto pushRequestDto) {
+        Map<String, String> phoneMap = pushRequestDto.getPhoneSystem();
+        String phoneSystem = "";
+        if (ToolsKit.isEmpty(account) || ToolsKit.isEmpty(phoneMap)) {
+            phoneSystem = "ios";
+        }
+        phoneSystem = phoneMap.get(account);
+
+        if (ToolsKit.isEmpty(phoneSystem)) {
+            throw new ServiceException(123, "推送消息时，用户的手机系统不能为空");
+        }
+        return phoneSystem;
     }
 
     /***

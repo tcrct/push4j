@@ -37,7 +37,7 @@ public class TemplateService extends CurdService<TemplateEntity> {
 			throw new ServiceException(ExceptionEnum.PARAM_NULL.getCode(), "模板对象不能为空");
 		}
 		if (ToolsKit.isNotEmpty(entity.getId()) && ToolsKit.isEmpty(entity.getCode())) {
-			String crcString = entity.getType() + entity.getTitle() + entity.getName() + System.currentTimeMillis();
+			String crcString = entity.getType() + entity.getTitle()  + System.currentTimeMillis();
 			entity.setCode(com.push4j.utils.ToolsKit.getCrc16(crcString));
 		}
 		return super.save(entity);

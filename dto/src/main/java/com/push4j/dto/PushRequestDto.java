@@ -39,19 +39,20 @@ public class PushRequestDto implements java.io.Serializable {
     private String receiveType;
 
     /**
+     * 与用户对应的手机系统,
+     */
+    private Map<String,String> phoneSystem;
+
+    /**
      * 扩展参数的map
      */
     private Map<String,Object> extMap;
 
-    /**
-     * 手机系统
-     */
-    private String phoneSystem;
 
     public PushRequestDto() {
     }
 
-    public PushRequestDto(String templateCode, String title, Map<String, String> valueMap, List<String> receiveList, String receiveType, String phoneSystem, Map<String,Object> extMap) {
+    public PushRequestDto(String templateCode, String title, Map<String, String> valueMap, List<String> receiveList, String receiveType, Map<String,String> phoneSystem, Map<String,Object> extMap) {
         this.templateCode = templateCode;
         this.title = title;
         this.valueMap = valueMap;
@@ -109,11 +110,11 @@ public class PushRequestDto implements java.io.Serializable {
         this.extMap = extMap;
     }
 
-    public String getPhoneSystem() {
+    public Map<String,String> getPhoneSystem() {
         return phoneSystem;
     }
 
-    public void setPhoneSystem(String phoneSystem) {
+    public void setPhoneSystem(Map<String,String> phoneSystem) {
         this.phoneSystem = phoneSystem;
     }
 }

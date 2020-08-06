@@ -45,21 +45,28 @@ public class MessageService extends CurdService<MessageEntity> {
 
 
 	/**
-	 * 设置为已读
+	 * 查找所有消息
 	 * @param userId 用户ID
 	 * @return
 	 */
-	public Map<String, List<MessageDto>> list(String userId, Integer pageNo ,Integer pageSize) {
+	public Map<String, List<MessageDto>> list(String userId, String type, Integer pageNo ,Integer pageSize) {
 		if (ToolsKit.isEmpty(userId)) {
 			throw new ServiceException(ExceptionEnum.PARAM_NULL.getCode(), "userId不能为空");
 		}
 		// 查询条件
+		List<SearchDto> searchDtoList = new ArrayList<>();
 		SearchDto searchDto = new SearchDto();
 		searchDto.setField(MessageEntity.USERID_FIELD);
 		searchDto.setOperator(OperatorEnum.EQ.getSkey());
 		searchDto.setValue(userId);
-		List<SearchDto> searchDtoList = new ArrayList<>();
 		searchDtoList.add(searchDto);
+		 if (ToolsKit.isNotEmpty(type)) {
+			 searchDto = new SearchDto();
+			 searchDto.setField(MessageEntity.TYPE_FIELD);
+			 searchDto.setOperator(OperatorEnum.EQ.getSkey());
+			 searchDto.setValue(type);
+			 searchDtoList.add(searchDto);
+		 }
 		// 查询字段
 		List<String> fieldList = new ArrayList<>();
 		fieldList.add(MessageEntity.ID_FIELD);
@@ -79,13 +86,13 @@ public class MessageService extends CurdService<MessageEntity> {
 		for (MessageEntity entity : messageEntityList) {
 			Integer id = entity.getId();
 			entity = findById(id);
-			String type = entity.getType();
-			List<MessageDto> messageDtoList= messageMap.get(type);
+			String entityType = entity.getType();
+			List<MessageDto> messageDtoList= messageMap.get(entityType);
 			if (ToolsKit.isEmpty(messageDtoList)) {
 				messageDtoList = new ArrayList<>();
 			}
 			MessageDto messageDto = new MessageDto();
-			messageDto.setType(type);
+			messageDto.setType(entityType);
 			messageDto.setTitle(entity.getTitle());
 			messageDto.setContent(entity.getContent());
 			messageDto.setCreateTime(entity.getSendTime());
@@ -95,7 +102,7 @@ public class MessageService extends CurdService<MessageEntity> {
 				messageDto.setReqDataDto(ToolsKit.jsonParseObject(reqData, ReqDataDto.class));
 			}
 			messageDtoList.add(messageDto);
-			messageMap.put(type, messageDtoList);
+			messageMap.put(entityType, messageDtoList);
 		}
 		return messageMap;
 	}

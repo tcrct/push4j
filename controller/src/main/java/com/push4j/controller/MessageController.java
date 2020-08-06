@@ -37,13 +37,15 @@ public class MessageController extends BaseController<MessageEntity> {
 			if (ToolsKit.isEmpty(userId)) {
 				throw new ServiceException(ExceptionEnum.PARAM_NULL.getCode(), "userId不能为空");
 			}
+			String type = getValue("type");
+
 			Integer pageNo = getIntValue("pageNo");
 			pageNo = ToolsKit.isEmpty(pageNo) ? 0 : pageNo;
 
 			Integer pageSize = getIntValue("pageSize");
 			pageSize = ToolsKit.isEmpty(pageSize) ? 10 : pageSize;
 
-			return R.success(messageService.list(userId, pageNo, pageSize));
+			return R.success(messageService.list(userId, type, pageNo, pageSize));
 		} catch (Exception e) {
 			return R.error(123, e);
 		}
