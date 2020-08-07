@@ -92,6 +92,7 @@ public class MessageService extends CurdService<MessageEntity> {
 				messageDtoList = new ArrayList<>();
 			}
 			MessageDto messageDto = new MessageDto();
+			messageDto.setId(entity.getId());
 			messageDto.setType(entityType);
 			messageDto.setTitle(entity.getTitle());
 			messageDto.setContent(entity.getContent());

@@ -7,8 +7,10 @@ import java.util.Map;
  * 消息中心列表
  *
  */
-public class MessageDto {
+public class MessageDto implements java.io.Serializable {
 
+    /**id*/
+    private Integer id;
     /**图标*/
     private String icon;
     /**标题*/
@@ -44,6 +46,15 @@ public class MessageDto {
         this.params = params;
         this.createTime = createTime;
         this.unRead = unRead;
+    }
+
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getIcon() {
