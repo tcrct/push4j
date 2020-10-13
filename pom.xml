@@ -43,7 +43,7 @@
         <cache.version>1.0-SNAPSHOT</cache.version>
         <utils.version>1.0-SNAPSHOT</utils.version>
         <handle.version>1.0-SNAPSHOT</handle.version>
-        <unit.version>4.11</unit.version>
+        <unit.version>4.13.1</unit.version>
     </properties>
 
     <dependencies>
